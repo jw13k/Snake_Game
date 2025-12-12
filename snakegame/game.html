@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Snake - Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <script>
+        // Global Error Handler for user debugging
+        window.onerror = function (msg, url, lineNo, columnNo, error) {
+            const overlay = document.getElementById('debug-overlay') || document.createElement('div');
+            overlay.id = 'debug-overlay';
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.background = 'rgba(255, 0, 0, 0.8)';
+            overlay.style.color = 'white';
+            overlay.style.padding = '10px';
+            overlay.style.zIndex = '9999';
+            overlay.style.fontFamily = 'monospace';
+            overlay.innerHTML += `<div>Error: ${msg} <br> File: ${url} <br> Line: ${lineNo}</div><hr>`;
+            if (!document.getElementById('debug-overlay')) document.body.prepend(overlay);
+            return false;
+        };
+    </script>
+
+    <div class="game-layout-container">
+        <!-- Left Side Image (Enemy) -->
+        <div class="side-image-container left">
+            <img id="boss-img" src="image/boss_1.png" alt="Enemy" class="side-image">
+        </div>
+
+        <!-- Center Game Wrapper -->
+        <div id="game-wrapper" class="game-wrapper">
+            <button id="back-to-menu-btn" class="back-btn">MENU</button>
+
+            <div class="game-container">
+                <div class="score-panel">
+                    <div class="score-board">
+                        <div class="score-item">SCORE: <span id="score">0</span></div>
+                        <div class="score-item">WAVE: <span id="wave">1</span></div>
+                        <div class="score-item">HIGH SCORE: <span id="high-score">0</span></div>
+                    </div>
+                </div>
+
+                <div class="game-area">
+                    <canvas id="gameCanvas" width="600" height="600"></canvas>
+
+                    <div id="start-screen" class="overlay active">
+                        <h1 class="title">READY?</h1>
+                        <p class="instruction">WASD or Arrow Keys to Move<br>Space to Start<br>ESC to Pause</p>
+                        <button id="start-btn" class="glow-btn">START</button>
+                    </div>
+
+                    <div id="pause-screen" class="overlay hidden">
+                        <h1 class="title">PAUSED</h1>
+                        <div class="menu-buttons" style="gap: 15px;"> <button id="pause-resume-btn"
+                                class="glow-btn">RESUME</button>
+                            <button id="pause-settings-btn" class="glow-btn">SETTINGS</button>
+                            <button id="pause-menu-btn" class="glow-btn">MAIN MENU</button>
+                        </div>
+                    </div>
+
+                    <div id="game-over-screen" class="overlay hidden">
+                        <h1 class="title text-red">GAME OVER</h1>
+                        <p class="final-score">Score: <span id="final-score-val">0</span></p>
+                        <button id="restart-btn" class="glow-btn">TRY AGAIN</button>
+                    </div>
+
+                    <!-- Stage Clear Screen [NEW] -->
+                    <div id="clear-screen" class="overlay hidden">
+                        <h1 class="title" style="color: #00ff88; text-shadow: 0 0 20px #00ff88;">STAGE CLEAR</h1>
+                        <p class="final-score">Score: <span id="clear-score-val">0</span></p>
+                        <button id="clear-restart-btn" class="glow-btn">PLAY AGAIN</button>
+                        <button id="clear-map-btn" class="glow-btn" style="margin-top: 10px;">STAGE MAP</button>
+                        <button id="clear-menu-btn" class="glow-btn" style="margin-top: 10px;">MAIN MENU</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side Image (Player) -->
+        <div class="side-image-container right">
+            <img id="player-img" src="image/NEO.png" alt="Player" class="side-image">
+        </div>
+    </div>
+
+    <!-- In-Game Settings Modal (Optional, reused code) -->
+    <div id="settings-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 class="modal-title">SETTINGS</h2>
+            <div class="setting-item">
+                <label>VOLUME</label>
+                <input type="range" id="volume-slider" min="0" max="100" value="50">
+            </div>
+            <div class="setting-item">
+                <label>BRIGHTNESS</label>
+                <input type="range" id="brightness-slider" min="50" max="150" value="100">
+            </div>
+            <div class="setting-item">
+                <label>LANGUAGE</label>
+                <select id="language-select" class="neon-select">
+                    <option value="en">ENGLISH</option>
+                    <option value="ko">KOREAN</option>
+                </select>
+            </div>
+            <button id="close-settings-btn" class="glow-btn small-btn">CLOSE</button>
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="game.js"></script>
+</body>
+
+</html>
