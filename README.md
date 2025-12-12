@@ -52,4 +52,5 @@
 
 ## 6. Github 링크
 
-- https://github.com/jw13k/re_AI_3-2
+
+- https://github.com/jw13k/Snake_Game
